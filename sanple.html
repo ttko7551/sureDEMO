@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>簡易掲示板</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="forms">
+        <h1>掲示板</h1>
+        <input type="text" id="msgbox">
+        <input type="submit" id="sentbtn">
+        <div id="time"></div>
+    </div>
+
+    <div id="tlbox">
+        <ul id="timeline">
+
+        </ul>
+    </div>
+    <script>
+        const msg=document.getElementById('msgbox');
+        const sent=document.getElementById('sentbtn');
+        const tl=document.getElementById('timeline');
+        const time=document.getElementById('time');
+
+        function timer2(num){
+            var ret;
+            if(num<10){ret="0"+num;}
+            else{ret=num;}
+            return ret;
+        }
+
+        function timer(){
+            var nowTime=new Date();
+            var year=nowTime.getFullYear();
+            var month=nowTime.getMonth();
+            var date=timer2(nowTime.getDate());
+            var hour=timer2(nowTime.getHours());
+            var nowmin=timer2(nowTime.getMinutes());
+            var nowsec=timer2(nowTime.getSeconds());
+
+            month=timer2(month+1);
+
+            var now=year+'/'+month+'/'+date+' '+hour+':'+nowmin+':'+nowsec;
+
+            console.log(now);
+
+            time.innerHTML=now;
+
+            return{now:now};
+        }
+        setInterval('timer()',1000)
+
+        sent.onclick=function sentmsg(){
+            var ms=msg.value;
+
+            console.log(ms);
+
+            var n=tl.childElementCount;
+
+            switch(ms){
+                case '':
+                break;
+
+                default:
+
+                switch(n){
+                    case '':
+                    n=1
+                    break;
+                    default:
+
+                    n=n+1;
+                }
+
+                console.log(n);
+                const box=document.createElement('li');
+
+                tl.appendChild(box);
+
+                box.id='msg'+n;
+
+                const a=document.getElementById('msg'+n);
+
+                a.style.listStyle='none';
+
+                var ntime=timer();
+
+                var ntime2=ntime.now;
+
+                a.innerHTML=n+'.'+ntime2+'.'+ms;
+
+                msg.value='';
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
